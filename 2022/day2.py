@@ -5,26 +5,32 @@ A = Rock
 B = Paper
 C = Scissors
 
-X = Rock		= 1 point
-Y = Paper		= 2 points
-Z = Scissors	= 3 points
+Rock 		= 1 point
+Paper 		= 2 points
+Scissors 	= 3 points
 
-Loose 	= 0 points
-Tie 	= 3 points
-Win		= 6 points
+X = Loose 	= 0 points
+Y = Tie 	= 3 points
+Z = Win		= 6 points
 
 '''
 
-loses_to = {
-	'X': 'C',
-	'Y': 'A',
-	'Z': 'B'
+wins = {
+	'A': '2',
+	'B': '3',
+	'C': '1'
 }
 
 ties = {
-	'X': 'A',
-	'Y': 'B',
-	'Z': 'C'
+	'A': '1',
+	'B': '2',
+	'C': '3'
+}
+
+loses = {
+	'A': '3',
+	'B': '1',
+	'C': '2'
 }
 
 def get_score(them,me):
@@ -32,25 +38,17 @@ def get_score(them,me):
 	score = 0
 	
 	if me == 'X':
-		score = 1
-	if me == 'Y':
-		score = 2
-	if me == 'Z':
-		score = 3
-
-	if them == loses_to[me]:
-		score += 6
-		print('Won with a total score of ' + str(score))
-		return score
-	elif them == ties[me]:
-		score += 3
-		print('Tied with a total score of ' + str(score))
-		return score
-	else:
+		score = int(loses[them])
 		print('Lost with a total score of ' + str(score))
 		return score
-		
-	return -1
+	if me == 'Y':
+		score = 3 + int(ties[them])
+		print('Tied with a total score of ' + str(score))
+		return score
+	if me == 'Z':
+		score = 6 + int(wins[them])
+		print('Won with a total score of ' + str(score))
+		return score
 
 if __name__ == "__main__":
 	
