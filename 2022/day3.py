@@ -18,17 +18,24 @@ CrZsJsPPZsGzwwsLwLmpwMDw
 
 '''	
 
-def get_priority(compartment_one, compartment_two):
+def get_common_item(compartment_one, compartment_two):
 	for item in compartment_one:
 		if item in compartment_two:
-			print("Common Item: " + str(item))
-			if(item.isupper()):
-				priority = ((ord(item) - 64) + 26)
-			else:
-				priority = ord(item) - 96
-			return priority
-			
-	return -1
+			return item
+	
+
+def get_priority(compartment_one, compartment_two):
+
+	item = get_common_item(compartment_one, compartment_two)
+	priority = 0
+	
+	if(item.isupper()):
+		priority = ((ord(item) - 64) + 26)
+	else:
+		priority = ord(item) - 96
+	
+	print("Common Item: " + str(item) + " ; Priority: " + str(priority))
+	return priority
 
 if __name__ == "__main__":
 	
@@ -53,8 +60,7 @@ if __name__ == "__main__":
 				i = i + 1
 			
 			priority = get_priority(compartment_one, compartment_two)
-			print("Priority: " + str(priority))
 			sum_priority += int(priority)
 	
-	print("sum of the priorities: " + str(sum_priority))
+	print("Sum of the priorities: " + str(sum_priority))
 			
