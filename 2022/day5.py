@@ -44,14 +44,15 @@ def move_containers(line, queue_info):
 	from_container = container_movement[3]
 	to_container = container_movement[5]
 	
-	print("move " + str(num_move) + " from " + str(from_container) + " to " + str(to_container))
+	# print("move " + str(num_move) + " from " + str(from_container) + " to " + str(to_container))
 	
 	i = 0
 	while i < int(num_move):
-		char_move = queue_info[int(from_container)-1].pop(0)
+		pop_num = int(num_move) - int(1) - int(i)
+		char_move = queue_info[int(from_container)-1].pop(pop_num)
 		queue_info[int(to_container)-1].insert(0,str(char_move))
 		i += 1
-	
+			
 	return queue_info
 
 if __name__ == "__main__":
@@ -63,10 +64,10 @@ if __name__ == "__main__":
 		for line in fp:
 			if '[' in line:
 				queue_info = get_container_info(line, queue_info)
-				print(queue_info)
+				# print(queue_info)
 			elif 'move' in line:
 				queue_info = move_containers(line, queue_info)
-				print(queue_info)
+				# print(queue_info)
 
 	i = 0
 	top_characters = ""
