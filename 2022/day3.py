@@ -61,7 +61,7 @@ def get_rucksack_priority(compartment_one, compartment_two):
 
 if __name__ == "__main__":
 	
-	inputFile = "C:\\dev\\GitHub\\Advent-Of-Code\\2022\\day3.txt"
+	inputFile = "day3.txt"
 	sum_group_priority = 0
 	sum_priority = 0
 	

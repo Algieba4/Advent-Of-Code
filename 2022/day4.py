@@ -41,7 +41,7 @@ def is_fully_contained(range_one,range_two):
 
 if __name__ == "__main__":
 	
-	inputFile = "C:\\dev\\GitHub\\Advent-Of-Code\\2022\\day4.txt"
+	inputFile = "day4.txt"
 	count_contained = 0
 	count_overlapped = 0
 	

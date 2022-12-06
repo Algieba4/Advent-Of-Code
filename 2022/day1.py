@@ -28,7 +28,7 @@ if __name__ == "__main__":
 	
 	highest_calories = [0,0,0]
 	elf_calories = 0;
-	inputFile = "C:\\dev\\GitHub\\Advent-Of-Code\\2022\\day1.txt"
+	inputFile = "day1.txt"
 	
 	with open(inputFile) as fp:
 		for line in fp:

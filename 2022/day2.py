@@ -52,7 +52,7 @@ def get_score(them,me):
 
 if __name__ == "__main__":
 	
-	inputFile = "C:\\dev\\GitHub\\Advent-Of-Code\\2022\\day2.txt"
+	inputFile = "day2.txt"
 	total_score = 0
 	
 	with open(inputFile) as fp:
