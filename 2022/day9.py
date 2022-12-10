@@ -23,9 +23,15 @@ R 4
 D 1
 L 5
 R 2
+
+It's lower than 8,070
+
+Note for future: make the entire thing one array of arrays.
 '''
 
-# Checks to see if the head and tail are currently touching
+# Checks to see if two knots are touching
+# head = knot just ahead of the current knot
+# tail = current knot 
 def is_touching(head, tail):
 	if is_touching_neighbors(head, tail):
 		return True
@@ -33,7 +39,11 @@ def is_touching(head, tail):
 		return True
 	return False
 
-# Checks to see if the head and tail are currently touching horizontally or vertially
+# Checks to see if two knots are touching horizontally or vertially
+# head = knot just ahead of the current knot
+# tail = current knot
+# Index 0 = X-axis
+# Index 1 = Y-axis
 def is_touching_neighbors(head, tail):
 	if int(tail[0]) == int(head[0]) and int(tail[1]) == int(head[1]):
 		return True
@@ -44,7 +54,11 @@ def is_touching_neighbors(head, tail):
 		
 	return False
 
-# Checks to see if the head and tail are currently touching diagonally
+# Checks to see if two knots are touching diagonally
+# head = knot just ahead of the current knot
+# tail = current knot 
+# Index 0 = X-axis
+# Index 1 = Y-axis
 def is_touching_diagonally(head, tail):
 	# top-left diagonal
 	if (int(tail[1]) + 1) == int(head[1]) and (int(tail[0]) - 1) == int(head[0]):
@@ -64,7 +78,7 @@ def is_touching_diagonally(head, tail):
 	
 	return False
 
-# Method to move the head
+# Method to move the head knot
 def move_head(head, direction):
 	x = head[0]
 	y = head[1]
@@ -80,7 +94,11 @@ def move_head(head, direction):
 	
 	return head
 
-# Method to move the tail, if necessary
+# Method to move a knot, if necessary
+# head = knot just ahead of the current knot
+# tail = current knot
+# Index 0 = X-axis
+# Index 1 = Y-axis
 def move_tail(head, tail, direction):
 	
 	if is_touching(head,tail):
@@ -110,7 +128,11 @@ def move_tail(head, tail, direction):
 	
 	return tail
 
-# Method to move the tail diagonally
+# Method to move a knot diaganally 
+# head = knot just ahead of the current knot
+# tail = current knot
+# Index 0 = X-axis
+# Index 1 = Y-axis
 def move_tail_diaganally(head, tail, direction):
 
 	if direction == 'D':
@@ -153,30 +175,26 @@ def move_tail_diaganally(head, tail, direction):
 		
 	return tail
 
+# Main method
 if __name__ == "__main__":
 	
 	inputFile = "day9.txt"
 	unique_movements = set()
-	head = [0,0]
-	tail = [0,0]
-	
-	unique_movements.add(tuple(tail))
-	# print("head: " + str(head) + " | tail: " + str(tail))
+	knots = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+	unique_movements.add(tuple(knots[len(knots)-1])) # By default, tail will be in position [0,0]
+	print("Movements: " + str(knots)) # Print initial body placement for debug
 	
 	with open(inputFile) as fp:
 		for line in fp:
 			direction,amount = line.split()
 			range_amount = range(int(amount)) # range is 0 to amount - 1		
-			
 			for number in range_amount:
-				# print(str(direction))
-				head = move_head(head, direction)
-				tail = move_tail(head, tail, direction)
-				unique_movements.add(tuple(tail))
-				# print("head: " + str(head) + " | tail: " + str(tail))
-
-	# print("Unique movements: " + str(unique_movements))
-	print("Total unique movements: " + str(len(unique_movements)))
-
-
-
+				knots[0] = move_head(knots[0], direction) # Move knot head
+				i = 1 # Move rest of the knots
+				while i < len(knots):
+					knots[i] = move_tail(knots[int(i) - 1], knots[i], direction)
+					if i == len(knots)-1: # Track unique locations of the knot tail
+						unique_movements.add(tuple(knots[i]))	
+					i += 1 # Progress through body knots
+				print("Movements: " + str(knots)) # Print movements for debug
+	print("Total unique movements: " + str(len(unique_movements))) # Print Solution answer
