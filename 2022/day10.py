@@ -28,17 +28,13 @@ def move_sprite_position(value, sprite_position):
 	sprite_position[0] = int(sprite_position[0]) + int(value)
 	sprite_position[1] = int(sprite_position[1]) + int(value)
 	sprite_position[2] = int(sprite_position[2]) + int(value)
-	print("Value: " + str(value))
-	print("New sprint position: " + str(sprite_position))
 	return sprite_position
 
 def print_pixel_image(cycle_count, sprite_position, ctr_line):
 	if cycle_count in sprite_position:
 		ctr_line.append("#")
-		print("#")
 	else:
 		ctr_line.append(".")
-		print(".")
 	return ctr_line
 
 # Main method
@@ -56,10 +52,8 @@ if __name__ == "__main__":
 	with open(inputFile) as fp:
 		for line in fp:
 			cycle_count += 1
-			print("Cycle: " + str(cycle_count))
 			ctr_line = print_pixel_image(cycle_count, sprite_position, ctr_line)
 			if cycle_count % 40 == 0:
-					print("New Row")
 					ctr_screen.append(tuple(ctr_line))
 					ctr_line = []
 					cycle_count = 0
@@ -69,10 +63,8 @@ if __name__ == "__main__":
 				value = line.split()[1]
 				signal_strengths = get_signal_strength(x, cycle_count, signal_strengths)
 				cycle_count += 1
-				print("Cycle: " + str(cycle_count))
 				ctr_line = print_pixel_image(cycle_count, sprite_position, ctr_line)
 				if cycle_count % 40 == 0:
-					print("New Row")
 					ctr_screen.append(tuple(ctr_line))
 					ctr_line = []
 					cycle_count = 0
