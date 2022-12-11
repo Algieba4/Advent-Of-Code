@@ -1,19 +1,10 @@
 '''
-https://adventofcode.com/2022/day/10
-
 RULES
-- noop == no change
-- addx $value == increments or decrements X by $value
-- Actions take place AFTER a cycle has finished
-- noop takes 1 cycle to complete
-- addx takes 2 cycles to complete
-- Cycle starts at 1
-- signal_strength is calculated DURING cycle
-- signal_strength is X * cycle_count
-- signal_strength occurs on cycle 20 and then every 40th
+- https://adventofcode.com/2022/day/10
 
 OBJECTIVE
 1. What is the sum of all signal strenghts
+2. What eight capital letters appear on your CRT
 
 TEST DATA
 noop
@@ -24,7 +15,6 @@ addx -5
 def get_signal_strength(x, cycle_count, signal_strengths):
 	if cycle_count == 20 or (cycle_count - 20) % 40 == 0:
 		signal_strength = int(cycle_count) * int(x)
-		print("Singal Strength: " + str(signal_strength))
 		signal_strengths.append(signal_strength)
 	return signal_strengths
 
@@ -34,11 +24,31 @@ def get_signal_strength_sum(signal_strengths):
 		sum_signal_strength += int(signal_strength)
 	return sum_signal_strength
 
+def move_sprite_position(value, sprite_position):
+	sprite_position[0] = int(sprite_position[0]) + int(value)
+	sprite_position[1] = int(sprite_position[1]) + int(value)
+	sprite_position[2] = int(sprite_position[2]) + int(value)
+	print("Value: " + str(value))
+	print("New sprint position: " + str(sprite_position))
+	return sprite_position
+
+def print_pixel_image(cycle_count, sprite_position, ctr_line):
+	if cycle_count in sprite_position:
+		ctr_line.append("#")
+		print("#")
+	else:
+		ctr_line.append(".")
+		print(".")
+	return ctr_line
+
 # Main method
 if __name__ == "__main__":
 	
+	ctr_screen = []
+	ctr_line = []
 	inputFile = "day10.txt"
 	signal_strengths = []
+	sprite_position = [1,2,3]
 	sum_signal_strength = 0
 	x = 1
 	cycle_count = 0
@@ -46,21 +56,36 @@ if __name__ == "__main__":
 	with open(inputFile) as fp:
 		for line in fp:
 			cycle_count += 1
-			print("Cycle Count: " + str(cycle_count))
+			print("Cycle: " + str(cycle_count))
+			ctr_line = print_pixel_image(cycle_count, sprite_position, ctr_line)
+			if cycle_count % 40 == 0:
+					print("New Row")
+					ctr_screen.append(tuple(ctr_line))
+					ctr_line = []
+					cycle_count = 0
 			if 'noop' in line:
 				signal_strengths = get_signal_strength(x, cycle_count, signal_strengths)
 			elif 'addx' in line:
 				value = line.split()[1]
 				signal_strengths = get_signal_strength(x, cycle_count, signal_strengths)
 				cycle_count += 1
-				print("Cycle Count: " + str(cycle_count))
+				print("Cycle: " + str(cycle_count))
+				ctr_line = print_pixel_image(cycle_count, sprite_position, ctr_line)
+				if cycle_count % 40 == 0:
+					print("New Row")
+					ctr_screen.append(tuple(ctr_line))
+					ctr_line = []
+					cycle_count = 0
 				signal_strengths = get_signal_strength(x, cycle_count, signal_strengths)
 				x += int(value)
-				print("x: " + str(x))
+				sprite_position = move_sprite_position(value, sprite_position)
 	
 	print("Signal Strengths:" + str(signal_strengths))
 	sum_signal_strength = get_signal_strength_sum(signal_strengths)
 	print("Sum of Signal Strenths: " + str(sum_signal_strength))
+	
+	for line in ctr_screen:
+		print(line)
 
 
 
